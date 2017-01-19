@@ -2,7 +2,7 @@ require 'aws/s3'
 
 AWS::S3::Base.establish_connection!(
   :access_key_id     => ENV['ACCESS_KEY_ID'], 
-  :secret_access_key => ENV['SECRECT_ACCESS_KEY']
+  :secret_access_key => ENV['SECRET_ACCESS_KEY']
 )
 
 File.open('buckets_to_delete.txt').each do |bucket_name|

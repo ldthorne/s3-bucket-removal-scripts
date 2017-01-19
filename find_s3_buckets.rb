@@ -4,7 +4,7 @@ BUCKETS_NOT_TO_DELETE = []
 
 AWS::S3::Base.establish_connection!(
   :access_key_id     => ENV['ACCESS_KEY_ID'], 
-  :secret_access_key => ENV['SECRECT_ACCESS_KEY']
+  :secret_access_key => ENV['SECRET_ACCESS_KEY']
 )
 
 buckets = AWS::S3::Bucket.list
