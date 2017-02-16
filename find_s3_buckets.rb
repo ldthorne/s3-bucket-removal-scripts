@@ -1,17 +1,20 @@
-require 'aws/s3'
+require 'aws-sdk'
 
-BUCKETS_NOT_TO_DELETE = []
+BUCKETS_NOT_TO_DELETE = ['app.hicommon.com', 'cmn-heroku-backups', 'careers.hicommon.com', 
+  'cmn-rds-dumps', 'cmn.tmp', 'cmn.videos', 'cmn.wp.backup',
+  'cmnstg-master', 'common-ssl-certs', 'common.com', 
+  'elasticbeanstalk-us-east-1-691242311077', 'elasticbeanstalk-us-west-2-691242311077',
+  'hicommon.com', 'logs.hicommon.com', 'skylight-neighborhoods-data', 'ssh.keys',
+  'staging-two.hicommon.com', 'staging.hicommon.com', 'www.common.com', 'www.hicommon.com',
+]
 
-AWS::S3::Base.establish_connection!(
-  :access_key_id     => ENV['ACCESS_KEY_ID'], 
-  :secret_access_key => ENV['SECRET_ACCESS_KEY']
-)
+s3 = Aws::S3::Client.new
 
-buckets = AWS::S3::Bucket.list
+bucket_names = s3.list_buckets.buckets.map(&:name)
 File.open('buckets_to_delete.txt', 'w+') do |f|
-  buckets.each do |bucket|
-    unless BUCKETS_NOT_TO_DELETE.include? bucket.name
-      f.puts(bucket.name)
+  bucket_names.each do |name|
+    unless BUCKETS_NOT_TO_DELETE.include? name
+      f.puts(name)
     end
   end
 end
